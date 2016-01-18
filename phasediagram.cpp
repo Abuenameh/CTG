@@ -434,20 +434,24 @@ void phasepoints(worker_input* input, worker_point* point_in, worker_output* out
     vector<Function> Edfs;
     vector<Function> gdfs;
     vector<Function> Enorms;
-    for (int ei = 0; ei < 7; ei++) {
+//    for (int ei = 0; ei < 7; ei++) {
         for (int i = 0; i < L; i++) {
             for (int n = 0; n <= nmax; n++) {
-                string funcname = "E_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string funcname = "E_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string funcname = "E_" + to_string(i) + "_" + to_string(n);
                 Es.push_back(ExternalFunction(funcname));
-                string Edffuncname = "Edf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string Edffuncname = "Edf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string Edffuncname = "Edf_" + to_string(i) + "_" + to_string(n);
                 Edfs.push_back(ExternalFunction(Edffuncname));
-                string gdffuncname = "gdf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string gdffuncname = "gdf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string gdffuncname = "gdf_" + to_string(i) + "_" + to_string(n);
                 gdfs.push_back(ExternalFunction(gdffuncname));
-                string normfuncname = "Enormgrad_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string normfuncname = "Enormgrad_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string normfuncname = "Enormgrad_" + to_string(i) + "_" + to_string(n);
                 Enorms.push_back(ExternalFunction(normfuncname));
             }
         }
-    }
+//    }
 
     SumFunction Ef(Es);
     Function nlp = Ef.create();
@@ -752,6 +756,22 @@ typedef SX(*energyfunc) (int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, S
 energyfunc energyfuncs[] = {energy1, energy2, energy3, energy4, energy5, energy6, energy7};
 energyfunc energynormfuncs[] = {energynorm1, energynorm2, energynorm3, energynorm4, energynorm5, energynorm6, energynorm7};
 
+SX energy(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta) {
+    SX E = 0;
+    for (int i = 0; i < 7; i++) {
+        E += energyfuncs[i](i, n, fin, J, U0, dU, mu, theta);
+    }
+    return E;
+}
+
+SX energynorm(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta) {
+    SX E = 0;
+    for (int i = 0; i < 7; i++) {
+        E += energynormfuncs[i](i, n, fin, J, U0, dU, mu, theta);
+    }
+    return E;
+}
+
 void build_Es() {
 
     SX f = SX::sym("f", 2 * L * dim);
@@ -775,9 +795,9 @@ void build_Es() {
     }
 
     chdir("Es");
-    for (int ei = 0; ei < 7; ei++) {
-        energyfunc energy = energyfuncs[ei];
-        energyfunc energynorm = energynormfuncs[ei];
+//    for (int ei = 0; ei < 7; ei++) {
+//        energyfunc energy = energyfuncs[ei];
+//        energyfunc energynorm = energynormfuncs[ei];
         for (int i = 0; i < L; i++) {
             for (int n = 0; n <= nmax; n++) {
 
@@ -797,14 +817,16 @@ void build_Es() {
                 //        }
                 //    }
 
-                string func_name = "E_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string func_name = "E_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string func_name = "E_" + to_string(i) + "_" + to_string(n);
                 SXFunction nlp(func_name, nlpIn("x", f, "p", p), nlpOut("f", E, "g", g));
                 CodeGenerator nlpGen;
                 nlpGen.add(nlp);
                 ////    nlpGen.add(nlp.fullJacobian());
                 nlpGen.generate(func_name);
 
-                string Edffunc_name = "Edf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string Edffunc_name = "Edf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string Edffunc_name = "Edf_" + to_string(i) + "_" + to_string(n);
                 SXFunction Ef("Ef",{f, p},
                 {
                     E, g
@@ -815,7 +837,8 @@ void build_Es() {
                 EdfGen.add(Edf);
                 EdfGen.generate(Edffunc_name);
 
-                string gdffunc_name = "gdf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string gdffunc_name = "gdf_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string gdffunc_name = "gdf_" + to_string(i) + "_" + to_string(n);
                 SXFunction gf("gf",{f, p},
                 {
                     E, g
@@ -826,7 +849,8 @@ void build_Es() {
                 gdfGen.add(gdf);
                 gdfGen.generate(gdffunc_name);
 
-                string normfunc_name = "Enormgrad_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+//                string normfunc_name = "Enormgrad_" + to_string(ei) + "_" + to_string(i) + "_" + to_string(n);
+                string normfunc_name = "Enormgrad_" + to_string(i) + "_" + to_string(n);
                 SXFunction nlpnorm(normfunc_name, nlpIn("x", f, "p", p), nlpOut("f", Enorm));
                 Function nlpnormgrad = nlpnorm.gradient();
                 nlpnormgrad.setOption("name", normfunc_name);
@@ -836,7 +860,7 @@ void build_Es() {
                 nlpnormGen.generate(normfunc_name);
             }
         }
-    }
+//    }
 
     chdir("..");
 }
