@@ -1018,8 +1018,11 @@ int main(int argc, char** argv) {
                     xi[j] = (1 + D * uni(rng));
                 }
             }
+            
+            string version = "new";
 
             boost::filesystem::ofstream os(resfile);
+            printMath(os, "version", resi, version);
             printMath(os, "Lres", resi, L);
             printMath(os, "nmaxres", resi, nmax);
             printMath(os, "seed", resi, seed);
@@ -1591,13 +1594,13 @@ int main(int argc, char** argv) {
             }
 
             //        points.push({2.03922e11, 0.2667});
-            int nW = 10;
+            int nW = 35;//280;
             for (int i = 0; i < nW; i++) {
-            double Wi = 2.32636e11;//2e10;
-            double Wf = 2.68095e11;//1.5e11;
+            double Wi = 1.5e11;//2.e11;//2.32636e11;//2e10;
+            double Wf = 2.2e11;//2.5e11;//2.68095e11;//1.5e11;
                 double W = Wi + i * (Wf - Wi) / (nW - 1);
 //                            points.push({W, 0.9});
-            points.push({W, 0.3});
+            points.push({W, 0.2});
             }
 //            points.push({2e10, 0.9});
 
