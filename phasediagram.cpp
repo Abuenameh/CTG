@@ -758,16 +758,16 @@ energyfunc energynormfuncs[] = {energynorm1, energynorm2, energynorm3, energynor
 
 SX energy(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta) {
     SX E = 0;
-    for (int i = 0; i < 7; i++) {
-        E += energyfuncs[i](i, n, fin, J, U0, dU, mu, theta);
+    for (int ei = 0; ei < 7; ei++) {
+        E += energyfuncs[ei](i, n, fin, J, U0, dU, mu, theta);
     }
     return E;
 }
 
 SX energynorm(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta) {
     SX E = 0;
-    for (int i = 0; i < 7; i++) {
-        E += energynormfuncs[i](i, n, fin, J, U0, dU, mu, theta);
+    for (int ei = 0; ei < 7; ei++) {
+        E += energynormfuncs[ei](i, n, fin, J, U0, dU, mu, theta);
     }
     return E;
 }
