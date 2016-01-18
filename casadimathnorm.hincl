@@ -1,0 +1,14 @@
+SX energynorm1(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm2(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm3(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm4(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm5(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm6(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
+SX energynorm7(int i, int n, SX& fin, SX& J, SX& U0, SX& dU, SX& mu, SX& theta);
+
