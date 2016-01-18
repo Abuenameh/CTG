@@ -528,11 +528,11 @@ void phasepoints(worker_input* input, worker_point* point_in, worker_output* out
             nlopt = false;
 
             arg["p"] = p;
-            map<string, DMatrix> res = solver(arg);
-            vector<double> x0ipopt = res["x"].nonzeros();
-            double E0ipopt = res["f"].toScalar();
-            //            vector<double> x0ipopt(ndim);
-            //            double E0ipopt = 1e100;
+//            map<string, DMatrix> res = solver(arg);
+//            vector<double> x0ipopt = res["x"].nonzeros();
+//            double E0ipopt = res["f"].toScalar();
+                        vector<double> x0ipopt(ndim);
+                        double E0ipopt = 1e100;
 
             nlopt = true;
 
@@ -607,9 +607,11 @@ void phasepoints(worker_input* input, worker_point* point_in, worker_output* out
             nlopt = false;
 
             arg["p"] = p;
-            map<string, DMatrix> res = solver(arg);
-            vector<double> xthipopt = res["x"].nonzeros();
-            double Ethipopt = res["f"].toScalar();
+//            map<string, DMatrix> res = solver(arg);
+//            vector<double> xthipopt = res["x"].nonzeros();
+//            double Ethipopt = res["f"].toScalar();
+                        vector<double> xthipopt(ndim);
+                        double Ethipopt = 1e100;
 
             nlopt = true;
 
@@ -1565,7 +1567,7 @@ int main(int argc, char** argv) {
             }
 
             //        points.push({2.03922e11, 0.2667});
-            int nW = 100;
+            int nW = 10;
             for (int i = 0; i < nW; i++) {
             double Wi = 2.32636e11;//2e10;
             double Wf = 2.68095e11;//1.5e11;
